@@ -11,13 +11,15 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
-    private int id;
+    private long id;
 
-    @Column(name = "task_id")
-    private int taskId;
+    @ManyToOne
+    @JoinColumn(name = "task_id", referencedColumnName = "task_id")
+    private Task task;
 
-    @Column(name = "user_id")
-    private int userId;
+    @OneToOne
+    @JoinColumn(name = "person_id", referencedColumnName = "person_id")
+    private Person person;
 
     @Column(name = "timestamp")
     private Date timestamp;

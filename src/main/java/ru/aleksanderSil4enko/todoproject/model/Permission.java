@@ -1,12 +1,12 @@
 package ru.aleksanderSil4enko.todoproject.model;
 
 public enum Permission {
-    TASKS_READ("tasks:read"),
-    TASKS_WRITE("tasks:write"),
-    COMMENTS_READ("comments:read"),
-    COMMENTS_WRITE("comments:write"),
-    REPORTS_READ("reports:read"),
-    REPORTS_WRITE("reports:write");
+    TASK_READ("tasks:read"),
+    TASK_WRITE("tasks:write"),
+    COMMENT_READ("comments:read"),
+    COMMENT_WRITE("comments:write"),
+    REPORT_READ("reports:read"),
+    REPORT_WRITE("reports:write");
 
     private final String permission;
 
