@@ -3,9 +3,7 @@ create table task
     task_id     serial
         primary key
         unique,
-    person_id   integer      not null
-        constraint task_person_person_id_fk
-            references person,
+    person_id   integer      not null,
     title       varchar(100) not null,
     description varchar(256) not null,
     date_start  date         not null,

@@ -14,9 +14,8 @@ create table person
     last_name     varchar(50)  not null,
     email         varchar(255) not null,
     password      varchar(255) not null,
-    task_id       integer      not null
-        constraint person_task_task_id_fk
-            references task
+    task_id       integer      not null,
+    report_id     integer      not null
 );
 
 alter table person
