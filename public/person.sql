@@ -13,7 +13,10 @@ create table person
     first_name    varchar(50)  not null,
     last_name     varchar(50)  not null,
     email         varchar(255) not null,
-    password      varchar(255) not null
+    password      varchar(255) not null,
+    task_id       integer      not null
+        constraint person_task_task_id_fk
+            references task
 );
 
 alter table person
