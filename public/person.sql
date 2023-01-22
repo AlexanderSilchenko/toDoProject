@@ -4,16 +4,16 @@ create table person
         constraint person_pk
             primary key
         unique,
-    user_id       integer     not null
-        unique
-        constraint person_users_user_id_fk
-            references users,
-    title         varchar(50) not null,
-    "order"       integer     not null,
-    department_id integer     not null
+    title         varchar(50)  not null,
+    "order"       integer      not null,
+    department_id integer      not null
         constraint person_department_department_id_fk
             references department,
-    role          varchar     not null
+    role          varchar      not null,
+    first_name    varchar(50)  not null,
+    last_name     varchar(50)  not null,
+    email         varchar(255) not null,
+    password      varchar(255) not null
 );
 
 alter table person
