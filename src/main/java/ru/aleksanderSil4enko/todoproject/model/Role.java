@@ -7,14 +7,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public enum Role {
-    EMPLOYER(Set.of(Permission.QUESTIONS_READ, Permission.SUBJECTS_READ)),
-    MASTER(),
-    CHIEF(Set.of(Permission.QUESTIONS_READ, Permission.QUESTIONS_WRITE,
-            Permission.SUBJECTS_READ, Permission.SUBJECTS_WRITE,
-            Permission.ANSWERS_READ, Permission.ANSWERS_WRITE)),
-    ADMINISTRATOR(Set.of(Permission.QUESTIONS_READ, Permission.QUESTIONS_WRITE,
-          Permission.SUBJECTS_READ, Permission.SUBJECTS_WRITE,
-          Permission.ANSWERS_READ, Permission.ANSWERS_WRITE));
+    EMPLOYER(Set.of()),
+    MASTER(Set.of()),
+    CHIEF(Set.of()),
+    ADMINISTRATOR(Set.of());
 
     private final Set<Permission> permissions;
 

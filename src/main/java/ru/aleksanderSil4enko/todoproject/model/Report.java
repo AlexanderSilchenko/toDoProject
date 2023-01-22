@@ -1,6 +1,8 @@
 package ru.aleksanderSil4enko.todoproject.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -26,11 +28,9 @@ public class Report {
     @JoinColumn(name = "person_id", referencedColumnName = "person_id")
     private Person person;
 
-    @OneToMany
-    @JoinColumn(name = "task_id", referencedColumnName = "task_id")
-    private List<Task> tasks;
+    @OneToMany(mappedBy = "reports")
+    @JsonIgnore
+    @ToString.Exclude
+    private List<Person> employers;
 
-    @OneToMany
-    @JoinColumn(name = "comment_id", referencedColumnName = "comment_id")
-    private List<Comment> comments;
 }

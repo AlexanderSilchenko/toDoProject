@@ -1,15 +1,13 @@
 package ru.aleksanderSil4enko.todoproject.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import lombok.ToString;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
-
+@Data
 @Entity
 @Table(name = "person")
-@Data
+@NoArgsConstructor
 public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,9 +29,14 @@ public class Person {
     @ManyToOne
     @JoinColumn(name = "department_id", referencedColumnName = "department_id")
     private Department department;
+
     @ManyToOne
     @JoinColumn(name = "task_id", referencedColumnName = "task_id")
-    private Task taskEmployer;
+    private Task tasks;
+
+    @ManyToOne
+    @JoinColumn(name = "report_id", referencedColumnName = "report_id")
+    private Report reports;
 
     @Column(name = "role")
     @Enumerated(EnumType.STRING)

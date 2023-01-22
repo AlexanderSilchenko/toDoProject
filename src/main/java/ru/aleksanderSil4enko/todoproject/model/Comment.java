@@ -14,12 +14,12 @@ public class Comment {
     private long id;
 
     @ManyToOne
-    @JoinColumn(name = "task_id", referencedColumnName = "task_id")
-    private Task task;
+    @JoinColumn(name = "task_id")
+    private Task tasks;
 
     @OneToOne
     @JoinColumn(name = "person_id", referencedColumnName = "person_id")
-    private Person person;
+    private Person autor;
 
     @Column(name = "timestamp")
     private Date timestamp;
