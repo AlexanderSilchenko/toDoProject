@@ -23,7 +23,6 @@ public class Comment {
 
     @Column(name = "timestamp")
     private Date timestamp;
-
     @Column(name = "text")
     private String text;
 }

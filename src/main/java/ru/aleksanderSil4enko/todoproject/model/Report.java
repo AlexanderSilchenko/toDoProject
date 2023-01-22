@@ -15,14 +15,6 @@ public class Report {
     @Column(name = "report_id")
     private long id;
 
-    @OneToOne
-    @JoinColumn(name = "person_id", referencedColumnName = "person_id")
-    private Person person;
-
-    @OneToMany
-    @JoinColumn(name = "task_id", referencedColumnName = "task_id")
-    private List<Task> tasks;
-
     @Column(name = "date")
     private Date date;
     @Column(name = "time_start")
@@ -32,5 +24,13 @@ public class Report {
 
     @OneToOne
     @JoinColumn(name = "person_id", referencedColumnName = "person_id")
-    private Comment comment;
+    private Person person;
+
+    @OneToMany
+    @JoinColumn(name = "task_id", referencedColumnName = "task_id")
+    private List<Task> tasks;
+
+    @OneToMany
+    @JoinColumn(name = "comment_id", referencedColumnName = "comment_id")
+    private List<Comment> comments;
 }
