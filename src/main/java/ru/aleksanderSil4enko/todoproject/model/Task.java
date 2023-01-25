@@ -1,8 +1,6 @@
 package ru.aleksanderSil4enko.todoproject.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -13,7 +11,7 @@ import java.util.List;
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "task_id")
+    @Column(name = "id")
     private long id;
 
     @Column(name = "title")
@@ -29,15 +27,10 @@ public class Task {
     @Column(name = "is_done")
     private boolean isDone;
 
-    @OneToOne
-    @JoinColumn(name = "person_id", referencedColumnName = "person_id")
-    private Person autor;
+    @ManyToOne
+    @JoinColumn(name = "person_id", referencedColumnName = "id")
+    private Person employer;
 
-    @OneToMany(mappedBy = "tasks")
-    @JsonIgnore
-    @ToString.Exclude
-    private List<Person> employers;
-
-
-
+    @OneToMany(mappedBy = "task")
+    private List<Report> reports;
 }

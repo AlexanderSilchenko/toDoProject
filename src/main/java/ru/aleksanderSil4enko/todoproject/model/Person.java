@@ -1,9 +1,12 @@
 package ru.aleksanderSil4enko.todoproject.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
+
 @Data
 @Entity
 @Table(name = "person")
@@ -11,9 +14,16 @@ import javax.persistence.*;
 public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "person_id")
+    @Column(name = "id")
     private long id;
-
+    @Column(name = "title")
+    private String title;
+    @ManyToOne
+    @JoinColumn(name = "department_id", referencedColumnName = "id")
+    private Department department;
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    private Role role;
     @Column(name = "first_name")
     private String firstName;
     @Column(name = "last_name")
@@ -22,24 +32,16 @@ public class Person {
     private String email;
     @Column(name = "password")
     private String password;
-    @Column(name = "title")
-    private String title;
-    @Column(name = "order")
-    private int order;
-    @ManyToOne
-    @JoinColumn(name = "department_id", referencedColumnName = "department_id")
-    private Department department;
 
-    @ManyToOne
-    @JoinColumn(name = "task_id", referencedColumnName = "task_id")
-    private Task tasks;
+    @OneToMany(mappedBy = "autor")
+    @JsonIgnore
+    private List<Comment> comments;
 
-    @ManyToOne
-    @JoinColumn(name = "report_id", referencedColumnName = "report_id")
-    private Report reports;
+    @OneToMany(mappedBy = "employer")
+    @JsonIgnore
+    private List<Task> tasks;
 
-    @Column(name = "role")
-    @Enumerated(EnumType.STRING)
-    private Role role;
-
+    @OneToMany(mappedBy = "employer")
+    @JsonIgnore
+    private List<Report> reports;
 }

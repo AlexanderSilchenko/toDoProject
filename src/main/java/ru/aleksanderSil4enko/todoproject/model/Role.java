@@ -10,7 +10,7 @@ public enum Role {
     EMPLOYER(Set.of()),
     MASTER(Set.of()),
     CHIEF(Set.of()),
-    ADMINISTRATOR(Set.of());
+    ADMIN(Set.of());
 
     private final Set<Permission> permissions;
 

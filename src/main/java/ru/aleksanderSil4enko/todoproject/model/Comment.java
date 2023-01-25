@@ -10,15 +10,18 @@ import java.util.Date;
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "comment_id")
+    @Column(name = "id")
     private long id;
 
     @ManyToOne
-    @JoinColumn(name = "task_id")
-    private Task tasks;
+    @JoinColumn(name = "task_id", referencedColumnName = "id")
+    private Task task;
+    @ManyToOne
+    @JoinColumn(name = "report_id", referencedColumnName = "report_id")
+    private Report report;
 
-    @OneToOne
-    @JoinColumn(name = "person_id", referencedColumnName = "person_id")
+    @ManyToOne
+    @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person autor;
 
     @Column(name = "timestamp")

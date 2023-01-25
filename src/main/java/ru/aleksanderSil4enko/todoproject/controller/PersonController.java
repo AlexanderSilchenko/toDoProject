@@ -19,12 +19,30 @@ public class PersonController {
     }
 
     @GetMapping("{id}")
-    public Person get(@PathVariable int id) {
+    public Person get(@PathVariable long id) {
         return personService.findById(id);
     }
 
     @PostMapping
+
     public Person create(@RequestBody Person person) {
-        return personService.create(person);
+        return personService.save(person);
+    }
+
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable long id) {
+        personService.delete(id);
+    }
+
+    @PutMapping("{id}")
+    public Person update(@PathVariable long id,
+                         @RequestBody Person person) {
+        return personService.update(id, person);
+    }
+
+    @PatchMapping("{id}")
+    public Person partialUpdate(@PathVariable long id,
+                                @RequestBody Person person) {
+        return personService.partialUpdate(id, person);
     }
 }
