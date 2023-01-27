@@ -3,7 +3,6 @@ package ru.aleksanderSil4enko.todoproject.service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.aleksanderSil4enko.todoproject.model.Department;
-import ru.aleksanderSil4enko.todoproject.model.Person;
 import ru.aleksanderSil4enko.todoproject.repository.DepartmentRepository;
 
 import java.util.List;
@@ -25,4 +24,9 @@ public class DepartmentService {
     public Department save(Department department) {
         return departmentRepository.save(department);
     }
+
+    public void delete(long id) {
+        departmentRepository.deleteById(id);
+    }
+
 }

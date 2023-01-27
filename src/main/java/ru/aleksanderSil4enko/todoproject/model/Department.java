@@ -6,10 +6,10 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
-
+@Data
 @Entity
 @Table(name = "department")
-@Data
+
 public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,8 +18,6 @@ public class Department {
 
     @Column(name = "name")
     private String name;
-    @Column(name = "order")
-    private int order;
 
     @OneToMany(mappedBy = "department")
     @JsonIgnore

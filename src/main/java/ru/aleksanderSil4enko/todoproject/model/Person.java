@@ -1,15 +1,18 @@
 package ru.aleksanderSil4enko.todoproject.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-@Data
 @Entity
+@Data
 @Table(name = "person")
+@AllArgsConstructor
 @NoArgsConstructor
 public class Person {
     @Id
@@ -18,9 +21,7 @@ public class Person {
     private long id;
     @Column(name = "title")
     private String title;
-    @ManyToOne
-    @JoinColumn(name = "department_id", referencedColumnName = "id")
-    private Department department;
+
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -33,15 +34,19 @@ public class Person {
     @Column(name = "password")
     private String password;
 
-    @OneToMany(mappedBy = "autor")
-    @JsonIgnore
-    private List<Comment> comments;
+    @ManyToOne
+    @JoinColumn(name = "department_id", referencedColumnName = "id")
+    private Department department;
 
-    @OneToMany(mappedBy = "employer")
-    @JsonIgnore
-    private List<Task> tasks;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name="person_task",
+            joinColumns=  @JoinColumn(name="person_id", referencedColumnName="id"),
+            inverseJoinColumns= @JoinColumn(name="task_id", referencedColumnName="id_task") )
+    private Set<Task> tasks = new HashSet<Task>();
 
-    @OneToMany(mappedBy = "employer")
-    @JsonIgnore
-    private List<Report> reports;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name="person_report",
+            joinColumns=  @JoinColumn(name="person_id", referencedColumnName="id"),
+            inverseJoinColumns= @JoinColumn(name="report_id", referencedColumnName="id") )
+    private Set<Report> reports = new HashSet<Report>();
 }

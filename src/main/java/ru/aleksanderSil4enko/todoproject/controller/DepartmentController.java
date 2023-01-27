@@ -24,8 +24,13 @@ public class DepartmentController {
     }
 
     @PostMapping
-    public Department save(@RequestBody Department department) {
+    public Department create(@RequestBody Department department) {
         return departmentService.save(department);
+    }
+
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable long id) {
+        departmentService.delete(id);
     }
 }
 

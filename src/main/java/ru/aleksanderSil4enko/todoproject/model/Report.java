@@ -15,22 +15,18 @@ public class Report {
     @Column(name = "id")
     private long id;
 
-    @Column(name = "report_id")
-    private long reportId;
     @Column(name = "date")
     private Date date;
-    @Column(name = "time_start")
+    @Column(name = "time_on")
     private Date timeStart;
-    @Column(name = "time_stop")
+    @Column(name = "time_off")
     private Date timeStop;
 
-    @ManyToOne
-    @JoinColumn(name = "person_id", referencedColumnName = "id")
-    private Person employer;
+    @ManyToMany(mappedBy = "reports")
+    private List<Person> employers;
 
-    @ManyToOne
-    @JoinColumn(name = "task_id", referencedColumnName = "id")
-    private Task task;
+    @ManyToMany(mappedBy = "reports")
+    private List<Task> tasks;
 
     @OneToMany(mappedBy = "report")
     private List<Comment> comments;
