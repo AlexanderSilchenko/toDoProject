@@ -7,24 +7,29 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.List;
-@Data
+
 @Entity
-@Table(name = "department")
+@Data
+@Table(name = "users")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Department {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "email", unique = true)
+    private String email;
+    @Column(name = "password")
+    private String password;
 
-    @OneToMany(mappedBy = "department")
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    @OneToOne(mappedBy = "user")
     @JsonIgnore
     @ToString.Exclude
-    private List<Person> employers;
-
+    private Person person;
 }

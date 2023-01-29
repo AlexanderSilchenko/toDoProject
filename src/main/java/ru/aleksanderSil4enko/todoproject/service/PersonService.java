@@ -23,7 +23,6 @@ public class PersonService {
         return personRepository.findById(id).orElseThrow();
     }
 
-    //регистрация пользователя
     public Person save(Person person) {
         return personRepository.save(person);
     }
@@ -37,11 +36,9 @@ public class PersonService {
                 .map(x -> {
                     x.setTitle(person.getTitle());
                     x.setDepartment(person.getDepartment());
-                    x.setRole(person.getRole());
                     x.setFirstName(person.getFirstName());
                     x.setLastName(person.getLastName());
-                    x.setEmail(person.getEmail());
-                    x.setPassword(person.getPassword());
+                    x.setUser(person.getUser());
                     return x;
                 }).orElseThrow();
     }
@@ -50,20 +47,16 @@ public class PersonService {
         return personRepository.findById(id)
                 .map(x -> {
                     log.info(x.toString());
-                    if(person.getTitle() != null && !person.getTitle().equals(""))
+                    if (person.getTitle() != null && !person.getTitle().equals(""))
                         x.setTitle(person.getTitle());
-                    if(person.getDepartment() != null)
+                    if (person.getDepartment() != null)
                         x.setDepartment(person.getDepartment());
-                    if(person.getRole() != null)
-                        x.setRole(person.getRole());
-                    if(person.getFirstName() != null && !person.getFirstName().equals(""))
+                    if (person.getFirstName() != null && !person.getFirstName().equals(""))
                         x.setFirstName(person.getFirstName());
-                    if(person.getLastName() != null && !person.getLastName().equals(""))
+                    if (person.getLastName() != null && !person.getLastName().equals(""))
                         x.setLastName(person.getLastName());
-                    if(person.getEmail() != null && !person.getEmail().equals(""))
-                        x.setEmail(person.getEmail());
-                    if(person.getPassword() != null && !person.getPassword().equals(""))
-                        x.setPassword(person.getPassword());
+                    if (person.getUser() != null)
+                        x.setUser(person.getUser());
                     return x;
                 }).orElseThrow();
     }

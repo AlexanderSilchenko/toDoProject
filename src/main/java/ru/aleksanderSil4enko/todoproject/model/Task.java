@@ -1,6 +1,9 @@
 package ru.aleksanderSil4enko.todoproject.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -11,6 +14,8 @@ import java.util.Set;
 @Entity
 @Table(name = "task")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,16 +26,25 @@ public class Task {
     private String title;
     @Column(name = "description")
     private String description;
+
     @Column(name = "date_in")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateStart;
     @Column(name = "date_out")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateFinish;
     @Column(name = "date_off")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateDone;
-    @Column(name = "is_done")
-    private boolean isDone;
 
-    @ManyToMany(mappedBy = "tasks")
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private Status taskStatus;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name="person_task",
+            joinColumns=  @JoinColumn(name="task_id", referencedColumnName="id_task"),
+            inverseJoinColumns= @JoinColumn(name="person_id", referencedColumnName="id") )
     private List<Person> employers;
 
     @ManyToMany(cascade = CascadeType.ALL)

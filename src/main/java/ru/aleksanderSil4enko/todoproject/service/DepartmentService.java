@@ -20,7 +20,6 @@ public class DepartmentService {
         return departmentRepository.findById(id).orElseThrow();
     }
 
-    //регистрация пользователя
     public Department save(Department department) {
         return departmentRepository.save(department);
     }
