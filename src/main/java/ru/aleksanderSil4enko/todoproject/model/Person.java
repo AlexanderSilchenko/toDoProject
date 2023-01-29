@@ -28,11 +28,11 @@ public class Person {
     private String lastName;
 
     @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", unique = true, nullable = false, referencedColumnName = "id")
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "department_id", referencedColumnName = "id")
+    @JoinColumn(name = "department_id", nullable = false, referencedColumnName = "id")
     private Department department;
 
     @ManyToMany(mappedBy = "employers")
