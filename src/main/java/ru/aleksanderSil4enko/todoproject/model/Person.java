@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -39,9 +40,11 @@ public class Person {
 
     @ManyToMany(mappedBy = "employers")
     @JsonIgnore
+    @ToString.Exclude
     private List<Task> tasks;
 
     @ManyToMany(mappedBy = "employers")
     @JsonIgnore
+    @ToString.Exclude
     private List<Report> reports;
 }

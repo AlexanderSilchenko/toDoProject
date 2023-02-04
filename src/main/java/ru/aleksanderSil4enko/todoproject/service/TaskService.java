@@ -3,6 +3,7 @@ package ru.aleksanderSil4enko.todoproject.service;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.aleksanderSil4enko.todoproject.model.Person;
 import ru.aleksanderSil4enko.todoproject.model.Task;
 import ru.aleksanderSil4enko.todoproject.repository.TaskRepository;
 
@@ -64,6 +65,28 @@ public class TaskService {
                         entry.setTaskStatus(task.getTaskStatus());
                     if (task.getReports() != null && !task.getReports().equals(""))
                         entry.setReports(task.getReports());
+                    return entry;
+                }).orElseThrow();
+    }
+    @Transactional
+    public Task addPerson(long id, Person person) {
+        return taskRepository.findById(id)
+                .map(entry -> {
+                    log.info(entry.toString());
+                    List tasksEmployers = entry.getEmployers();
+                    tasksEmployers.add(person);
+                    entry.setEmployers(tasksEmployers);
+                    return entry;
+                }).orElseThrow();
+    }
+    @Transactional
+    public Task removePerson(long id, Person person) {
+        return taskRepository.findById(id)
+                .map(entry -> {
+                    log.info(entry.toString());
+                    List tasksEmployers = entry.getEmployers();
+                    tasksEmployers.remove(person);
+                    entry.setEmployers(tasksEmployers);
                     return entry;
                 }).orElseThrow();
     }

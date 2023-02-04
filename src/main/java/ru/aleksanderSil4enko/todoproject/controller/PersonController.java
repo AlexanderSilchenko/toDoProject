@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.aleksanderSil4enko.todoproject.model.Person;
+import ru.aleksanderSil4enko.todoproject.model.Report;
+import ru.aleksanderSil4enko.todoproject.model.Task;
 import ru.aleksanderSil4enko.todoproject.model.User;
 import ru.aleksanderSil4enko.todoproject.service.PersonService;
 import ru.aleksanderSil4enko.todoproject.service.UserService;
@@ -12,7 +14,7 @@ import ru.aleksanderSil4enko.todoproject.service.UserService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/person")
+@RequestMapping("/persons")
 public class PersonController {
     private final PersonService personService;
     @Autowired
@@ -55,5 +57,17 @@ public class PersonController {
     public Person partialUpdate(@PathVariable long id,
                                 @RequestBody Person person) {
         return personService.partialUpdate(id, person);
+    }
+    //выдать пользователю все его задания
+    @GetMapping("/{userId}/tasks")
+    @PreAuthorize("@userDetailsServiceImpl.hasUserId(authentication, #userId) or hasAuthority('tasks:read')")
+    public List<Task> userTasks(@PathVariable long userId) {
+        return personService.findById(userId).getTasks();
+    }
+    //выдать пользователю все его отчёты
+    @GetMapping("/{userId}/reports")
+    @PreAuthorize("@userDetailsServiceImpl.hasUserId(authentication, #userId) or hasAuthority('reports:read')")
+    public List<Report> userReports(@PathVariable long userId) {
+        return personService.findById(userId).getReports();
     }
 }

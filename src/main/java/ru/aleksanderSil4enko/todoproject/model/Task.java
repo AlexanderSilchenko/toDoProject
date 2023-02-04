@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -45,11 +46,12 @@ public class Task {
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name="person_task",
             joinColumns=  @JoinColumn(name="task_id", referencedColumnName="id_task"),
-            inverseJoinColumns= @JoinColumn(name="person_id", referencedColumnName="id") )
+            inverseJoinColumns= @JoinColumn(name="person_id", referencedColumnName="id"))
     private List<Person> employers;
 
     @ManyToMany(mappedBy = "tasks")
     @JsonIgnore
+    @ToString.Exclude
     private List<Report> reports;
 
 }

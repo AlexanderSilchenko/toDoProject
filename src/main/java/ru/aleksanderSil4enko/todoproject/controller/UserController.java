@@ -11,7 +11,7 @@ import ru.aleksanderSil4enko.todoproject.service.UserService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
     private final UserService userService;
 
@@ -26,45 +26,33 @@ public class UserController {
         return userService.findById(userId);
     }
 
-    @GetMapping("/{userId}/tasks")
-    @PreAuthorize("@userDetailsServiceImpl.hasUserId(authentication, #userId) or hasAuthority('tasks:read')")
-    public List<Task> userTasks(@PathVariable long userId) {
-        return userService.findById(userId)
-                .getPerson().getTasks();
-    }
-    @GetMapping("/{userId}/reports")
-    @PreAuthorize("@userDetailsServiceImpl.hasUserId(authentication, #userId) or hasAuthority('reports:read')")
-    public List<Report> userReports(@PathVariable long userId) {
-        return userService.findById(userId)
-                .getPerson().getReports();
-    }
     @GetMapping
-    @PreAuthorize("hasAuthority('reports:write')")
+    @PreAuthorize("hasAuthority('users:read')")
     public List<User> getAll(){
         return userService.findAll();
     }
 
     @PostMapping
-    @PreAuthorize("hasAuthority('reports:write')")
+    @PreAuthorize("hasAuthority('users:write')")
     public User create(@RequestBody User user) {
         return userService.save(user);
     }
 
     @DeleteMapping("{id}")
-    @PreAuthorize("hasAuthority('reports:write')")
+    @PreAuthorize("hasAuthority('users:write')")
     public void delete(@PathVariable long id) {
         userService.delete(id);
     }
 
     @PutMapping("{id}")
-    @PreAuthorize("hasAuthority('reports:write')")
+    @PreAuthorize("hasAuthority('users:write')")
     public User update(@PathVariable long id,
                          @RequestBody User user) {
         return userService.update(id, user);
     }
 
     @PatchMapping("{id}")
-    @PreAuthorize("hasAuthority('reports:write')")
+    @PreAuthorize("hasAuthority('users:write')")
     public User partialUpdate(@PathVariable long id,
                                 @RequestBody User user) {
         return userService.partialUpdate(id, user);
