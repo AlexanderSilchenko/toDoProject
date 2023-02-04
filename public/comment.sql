@@ -1,13 +1,12 @@
 create table comment
 (
-    comment_id serial
+    id        bigserial
         primary key,
-    task_id    integer      not null,
-    person_id  integer      not null
-        constraint comment_person_person_id_fk
-            references person,
-    timestamp  date         not null,
-    text       varchar(500) not null
+    text      varchar(255),
+    timestamp timestamp,
+    report_id bigint
+        constraint fkn2m8whrfw1drq2c67d247br7c
+            references report
 );
 
 alter table comment

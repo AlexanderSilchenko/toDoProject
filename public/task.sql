@@ -1,18 +1,13 @@
 create table task
 (
-    task_id     serial
-        primary key
-        unique,
-    person_id   integer      not null,
-    title       varchar(100) not null,
-    description varchar(256) not null,
-    date_start  date         not null,
-    date_done   date         not null,
-    date_finish date,
-    comment_id  integer
-        constraint task_comment_comment_id_fk
-            references comment,
-    is_done     boolean      not null
+    id_task     bigserial
+        primary key,
+    date_off    timestamp,
+    date_out    timestamp,
+    date_in     timestamp,
+    description varchar(255),
+    status      varchar(255),
+    title       varchar(255)
 );
 
 alter table task

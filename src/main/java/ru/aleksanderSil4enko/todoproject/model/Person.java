@@ -6,7 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -37,9 +39,9 @@ public class Person {
 
     @ManyToMany(mappedBy = "employers")
     @JsonIgnore
-    private Set<Task> tasks = new HashSet<Task>();
+    private List<Task> tasks;
 
     @ManyToMany(mappedBy = "employers")
     @JsonIgnore
-    private Set<Report> reports = new HashSet<Report>();
+    private List<Report> reports;
 }

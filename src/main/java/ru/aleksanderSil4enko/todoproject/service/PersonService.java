@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.aleksanderSil4enko.todoproject.model.Person;
+import ru.aleksanderSil4enko.todoproject.model.User;
 import ru.aleksanderSil4enko.todoproject.repository.PersonRepository;
+import ru.aleksanderSil4enko.todoproject.repository.UserRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -13,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @Slf4j
 public class PersonService {
+    private final UserRepository userRepository;
     private final PersonRepository personRepository;
 
     public List<Person> findAll() {
@@ -24,6 +27,9 @@ public class PersonService {
     }
 
     public Person save(Person person) {
+        System.out.println(person);
+        userRepository.save(person.getUser());
+        person.setUser(person.getUser());
         return personRepository.save(person);
     }
 

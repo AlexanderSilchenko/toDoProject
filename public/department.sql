@@ -1,11 +1,9 @@
 create table department
 (
-    department_id serial
-        primary key
-        unique,
-    name          varchar(50) not null
-        unique,
-    "order"       integer     not null
+    id   bigserial
+        primary key,
+    name varchar(255) not null
+        unique
 );
 
 alter table department

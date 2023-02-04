@@ -1,21 +1,18 @@
 create table person
 (
-    person_id     serial
-        constraint person_pk
-            primary key
-        unique,
-    title         varchar(50)  not null,
-    "order"       integer      not null,
-    department_id integer      not null
-        constraint person_department_department_id_fk
+    id            bigserial
+        primary key,
+    first_name    varchar(255),
+    last_name     varchar(255),
+    title         varchar(255),
+    department_id bigint not null
+        constraint fkqqg5cmjglivmepn16lqb1m8ux
             references department,
-    role          varchar      not null,
-    first_name    varchar(50)  not null,
-    last_name     varchar(50)  not null,
-    email         varchar(255) not null,
-    password      varchar(255) not null,
-    task_id       integer      not null,
-    report_id     integer      not null
+    user_id       bigint not null
+        constraint uk_77e12pjkm9v423j9hd3u10bk1
+            unique
+        constraint fkemsnreyk6g37uoja1ngeog5sp
+            references users
 );
 
 alter table person

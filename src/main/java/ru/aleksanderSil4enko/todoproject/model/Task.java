@@ -1,5 +1,6 @@
 package ru.aleksanderSil4enko.todoproject.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -47,10 +48,8 @@ public class Task {
             inverseJoinColumns= @JoinColumn(name="person_id", referencedColumnName="id") )
     private List<Person> employers;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name="report_task",
-            joinColumns=  @JoinColumn(name="task_id", referencedColumnName="id_task"),
-            inverseJoinColumns= @JoinColumn(name="report_id", referencedColumnName="id") )
-    private Set<Report> reports = new HashSet<Report>();
+    @ManyToMany(mappedBy = "tasks")
+    @JsonIgnore
+    private List<Report> reports;
 
 }

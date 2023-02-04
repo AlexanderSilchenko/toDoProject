@@ -25,22 +25,20 @@ SET default_table_access_method = heap;
 --
 
 CREATE TABLE public.comment (
-    comment_id integer NOT NULL,
-    task_id integer NOT NULL,
-    person_id integer NOT NULL,
-    "timestamp" date NOT NULL,
-    text character varying(500) NOT NULL
+    id bigint NOT NULL,
+    text character varying(255),
+    "timestamp" timestamp without time zone,
+    report_id bigint
 );
 
 
 ALTER TABLE public.comment OWNER TO postgres;
 
 --
--- Name: comment_comment_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: comment_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE public.comment_comment_id_seq
-    AS integer
+CREATE SEQUENCE public.comment_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -48,13 +46,13 @@ CREATE SEQUENCE public.comment_comment_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.comment_comment_id_seq OWNER TO postgres;
+ALTER TABLE public.comment_id_seq OWNER TO postgres;
 
 --
--- Name: comment_comment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: comment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.comment_comment_id_seq OWNED BY public.comment.comment_id;
+ALTER SEQUENCE public.comment_id_seq OWNED BY public.comment.id;
 
 
 --
@@ -62,20 +60,18 @@ ALTER SEQUENCE public.comment_comment_id_seq OWNED BY public.comment.comment_id;
 --
 
 CREATE TABLE public.department (
-    department_id integer NOT NULL,
-    name character varying(50) NOT NULL,
-    "order" integer NOT NULL
+    id bigint NOT NULL,
+    name character varying(255) NOT NULL
 );
 
 
 ALTER TABLE public.department OWNER TO postgres;
 
 --
--- Name: department_department_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: department_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE public.department_department_id_seq
-    AS integer
+CREATE SEQUENCE public.department_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -83,13 +79,13 @@ CREATE SEQUENCE public.department_department_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.department_department_id_seq OWNER TO postgres;
+ALTER TABLE public.department_id_seq OWNER TO postgres;
 
 --
--- Name: department_department_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: department_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.department_department_id_seq OWNED BY public.department.department_id;
+ALTER SEQUENCE public.department_id_seq OWNED BY public.department.id;
 
 
 --
@@ -97,28 +93,22 @@ ALTER SEQUENCE public.department_department_id_seq OWNED BY public.department.de
 --
 
 CREATE TABLE public.person (
-    person_id integer NOT NULL,
-    title character varying(50) NOT NULL,
-    "order" integer NOT NULL,
-    department_id integer NOT NULL,
-    role character varying NOT NULL,
-    first_name character varying(50) NOT NULL,
-    last_name character varying(50) NOT NULL,
-    email character varying(255) NOT NULL,
-    password character varying(255) NOT NULL,
-    task_id integer NOT NULL,
-    report_id integer NOT NULL
+    id bigint NOT NULL,
+    first_name character varying(255),
+    last_name character varying(255),
+    title character varying(255),
+    department_id bigint NOT NULL,
+    user_id bigint NOT NULL
 );
 
 
 ALTER TABLE public.person OWNER TO postgres;
 
 --
--- Name: person_person_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: person_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE public.person_person_id_seq
-    AS integer
+CREATE SEQUENCE public.person_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -126,38 +116,57 @@ CREATE SEQUENCE public.person_person_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.person_person_id_seq OWNER TO postgres;
+ALTER TABLE public.person_id_seq OWNER TO postgres;
 
 --
--- Name: person_person_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: person_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.person_person_id_seq OWNED BY public.person.person_id;
+ALTER SEQUENCE public.person_id_seq OWNED BY public.person.id;
 
+
+--
+-- Name: person_report; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.person_report (
+    report_id bigint NOT NULL,
+    person_id bigint NOT NULL
+);
+
+
+ALTER TABLE public.person_report OWNER TO postgres;
+
+--
+-- Name: person_task; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.person_task (
+    task_id bigint NOT NULL,
+    person_id bigint NOT NULL
+);
+
+
+ALTER TABLE public.person_task OWNER TO postgres;
 
 --
 -- Name: report; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.report (
-    report_id integer NOT NULL,
-    person_id integer NOT NULL,
-    task_id integer NOT NULL,
-    date date NOT NULL,
-    time_start date NOT NULL,
-    time_stop date NOT NULL,
-    comment_id integer
+    id bigint NOT NULL,
+    time_on timestamp without time zone,
+    time_off timestamp without time zone
 );
 
 
 ALTER TABLE public.report OWNER TO postgres;
 
 --
--- Name: report_report_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: report_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE public.report_report_id_seq
-    AS integer
+CREATE SEQUENCE public.report_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -165,40 +174,49 @@ CREATE SEQUENCE public.report_report_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.report_report_id_seq OWNER TO postgres;
+ALTER TABLE public.report_id_seq OWNER TO postgres;
 
 --
--- Name: report_report_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: report_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.report_report_id_seq OWNED BY public.report.report_id;
+ALTER SEQUENCE public.report_id_seq OWNED BY public.report.id;
 
+
+--
+-- Name: report_task; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.report_task (
+    task_id bigint NOT NULL,
+    report_id bigint NOT NULL
+);
+
+
+ALTER TABLE public.report_task OWNER TO postgres;
 
 --
 -- Name: task; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.task (
-    task_id integer NOT NULL,
-    person_id integer NOT NULL,
-    title character varying(100) NOT NULL,
-    description character varying(256) NOT NULL,
-    date_start date NOT NULL,
-    date_done date NOT NULL,
-    date_finish date,
-    comment_id integer,
-    is_done boolean NOT NULL
+    id_task bigint NOT NULL,
+    date_off timestamp without time zone,
+    date_out timestamp without time zone,
+    date_in timestamp without time zone,
+    description character varying(255),
+    status character varying(255),
+    title character varying(255)
 );
 
 
 ALTER TABLE public.task OWNER TO postgres;
 
 --
--- Name: task_task_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: task_id_task_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE public.task_task_id_seq
-    AS integer
+CREATE SEQUENCE public.task_id_task_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -206,55 +224,97 @@ CREATE SEQUENCE public.task_task_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.task_task_id_seq OWNER TO postgres;
+ALTER TABLE public.task_id_task_seq OWNER TO postgres;
 
 --
--- Name: task_task_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: task_id_task_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.task_task_id_seq OWNED BY public.task.task_id;
-
-
---
--- Name: comment comment_id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.comment ALTER COLUMN comment_id SET DEFAULT nextval('public.comment_comment_id_seq'::regclass);
+ALTER SEQUENCE public.task_id_task_seq OWNED BY public.task.id_task;
 
 
 --
--- Name: department department_id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.department ALTER COLUMN department_id SET DEFAULT nextval('public.department_department_id_seq'::regclass);
+CREATE TABLE public.users (
+    id bigint NOT NULL,
+    email character varying(255),
+    password character varying(255),
+    role character varying(255)
+);
+
+
+ALTER TABLE public.users OWNER TO postgres;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.users_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_id_seq OWNER TO postgres;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
 
 
 --
--- Name: person person_id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: comment id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.person ALTER COLUMN person_id SET DEFAULT nextval('public.person_person_id_seq'::regclass);
-
-
---
--- Name: report report_id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.report ALTER COLUMN report_id SET DEFAULT nextval('public.report_report_id_seq'::regclass);
+ALTER TABLE ONLY public.comment ALTER COLUMN id SET DEFAULT nextval('public.comment_id_seq'::regclass);
 
 
 --
--- Name: task task_id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: department id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.task ALTER COLUMN task_id SET DEFAULT nextval('public.task_task_id_seq'::regclass);
+ALTER TABLE ONLY public.department ALTER COLUMN id SET DEFAULT nextval('public.department_id_seq'::regclass);
+
+
+--
+-- Name: person id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.person ALTER COLUMN id SET DEFAULT nextval('public.person_id_seq'::regclass);
+
+
+--
+-- Name: report id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.report ALTER COLUMN id SET DEFAULT nextval('public.report_id_seq'::regclass);
+
+
+--
+-- Name: task id_task; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.task ALTER COLUMN id_task SET DEFAULT nextval('public.task_id_task_seq'::regclass);
+
+
+--
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
 
 
 --
 -- Data for Name: comment; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.comment (comment_id, task_id, person_id, "timestamp", text) FROM stdin;
+COPY public.comment (id, text, "timestamp", report_id) FROM stdin;
 \.
 
 
@@ -262,7 +322,9 @@ COPY public.comment (comment_id, task_id, person_id, "timestamp", text) FROM std
 -- Data for Name: department; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.department (department_id, name, "order") FROM stdin;
+COPY public.department (id, name) FROM stdin;
+1	OIT
+2	AHO
 \.
 
 
@@ -270,7 +332,30 @@ COPY public.department (department_id, name, "order") FROM stdin;
 -- Data for Name: person; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.person (person_id, title, "order", department_id, role, first_name, last_name, email, password, task_id, report_id) FROM stdin;
+COPY public.person (id, first_name, last_name, title, department_id, user_id) FROM stdin;
+3	aho1	aho1	aho1	2	2
+1	admin	admin	admin	1	1
+4	emp1	emp11	emp1	2	3
+9	emp2	emp2	emp2	2	4
+10	chief	chief	chief	1	5
+\.
+
+
+--
+-- Data for Name: person_report; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.person_report (report_id, person_id) FROM stdin;
+1	1
+\.
+
+
+--
+-- Data for Name: person_task; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.person_task (task_id, person_id) FROM stdin;
+1	4
 \.
 
 
@@ -278,7 +363,17 @@ COPY public.person (person_id, title, "order", department_id, role, first_name, 
 -- Data for Name: report; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.report (report_id, person_id, task_id, date, time_start, time_stop, comment_id) FROM stdin;
+COPY public.report (id, time_on, time_off) FROM stdin;
+1	2023-01-30 21:53:48	2023-01-30 21:53:50
+\.
+
+
+--
+-- Data for Name: report_task; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.report_task (task_id, report_id) FROM stdin;
+1	1
 \.
 
 
@@ -286,43 +381,64 @@ COPY public.report (report_id, person_id, task_id, date, time_start, time_stop, 
 -- Data for Name: task; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.task (task_id, person_id, title, description, date_start, date_done, date_finish, comment_id, is_done) FROM stdin;
+COPY public.task (id_task, date_off, date_out, date_in, description, status, title) FROM stdin;
+1	2023-01-30 21:29:58	2023-01-30 21:30:03	2023-01-30 21:30:11	desc1	CREATED	title1
 \.
 
 
 --
--- Name: comment_comment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.comment_comment_id_seq', 1, false);
-
-
---
--- Name: department_department_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.department_department_id_seq', 1, false);
-
-
---
--- Name: person_person_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.person_person_id_seq', 1, false);
+COPY public.users (id, email, password, role) FROM stdin;
+4	employer2@mail.ru	$2a$12$o1gOD8JmdXYBt774DCjrK.8jz7/Tg0gmoSxlJGGW2g.83r4Dxj9hm	EMPLOYER
+1	admin@mail.ru	$2a$12$o1gOD8JmdXYBt774DCjrK.8jz7/Tg0gmoSxlJGGW2g.83r4Dxj9hm	ADMIN
+2	aho@mail.ru	$2a$12$o1gOD8JmdXYBt774DCjrK.8jz7/Tg0gmoSxlJGGW2g.83r4Dxj9hm	MASTER
+3	employer@mail.ru	$2a$12$o1gOD8JmdXYBt774DCjrK.8jz7/Tg0gmoSxlJGGW2g.83r4Dxj9hm	EMPLOYER
+5	chief1@mail.ru	$2a$12$o1gOD8JmdXYBt774DCjrK.8jz7/Tg0gmoSxlJGGW2g.83r4Dxj9hm	CHIEF
+\.
 
 
 --
--- Name: report_report_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: comment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.report_report_id_seq', 1, false);
+SELECT pg_catalog.setval('public.comment_id_seq', 1, false);
 
 
 --
--- Name: task_task_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: department_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.task_task_id_seq', 1, false);
+SELECT pg_catalog.setval('public.department_id_seq', 2, true);
+
+
+--
+-- Name: person_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.person_id_seq', 10, true);
+
+
+--
+-- Name: report_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.report_id_seq', 1, true);
+
+
+--
+-- Name: task_id_task_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.task_id_task_seq', 1, true);
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.users_id_seq', 5, true);
 
 
 --
@@ -330,15 +446,7 @@ SELECT pg_catalog.setval('public.task_task_id_seq', 1, false);
 --
 
 ALTER TABLE ONLY public.comment
-    ADD CONSTRAINT comment_pkey PRIMARY KEY (comment_id);
-
-
---
--- Name: department department_department_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.department
-    ADD CONSTRAINT department_department_id_key UNIQUE (department_id);
+    ADD CONSTRAINT comment_pkey PRIMARY KEY (id);
 
 
 --
@@ -354,23 +462,15 @@ ALTER TABLE ONLY public.department
 --
 
 ALTER TABLE ONLY public.department
-    ADD CONSTRAINT department_pkey PRIMARY KEY (department_id);
+    ADD CONSTRAINT department_pkey PRIMARY KEY (id);
 
 
 --
--- Name: person person_person_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.person
-    ADD CONSTRAINT person_person_id_key UNIQUE (person_id);
-
-
---
--- Name: person person_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: person person_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.person
-    ADD CONSTRAINT person_pk PRIMARY KEY (person_id);
+    ADD CONSTRAINT person_pkey PRIMARY KEY (id);
 
 
 --
@@ -378,15 +478,15 @@ ALTER TABLE ONLY public.person
 --
 
 ALTER TABLE ONLY public.report
-    ADD CONSTRAINT report_pkey PRIMARY KEY (report_id);
+    ADD CONSTRAINT report_pkey PRIMARY KEY (id);
 
 
 --
--- Name: report report_report_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: report_task report_task_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.report
-    ADD CONSTRAINT report_report_id_key UNIQUE (report_id);
+ALTER TABLE ONLY public.report_task
+    ADD CONSTRAINT report_task_pkey PRIMARY KEY (task_id, report_id);
 
 
 --
@@ -394,63 +494,103 @@ ALTER TABLE ONLY public.report
 --
 
 ALTER TABLE ONLY public.task
-    ADD CONSTRAINT task_pkey PRIMARY KEY (task_id);
+    ADD CONSTRAINT task_pkey PRIMARY KEY (id_task);
 
 
 --
--- Name: task task_task_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: users uk_6dotkott2kjsp8vw4d0m25fb7; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.task
-    ADD CONSTRAINT task_task_id_key UNIQUE (task_id);
-
-
---
--- Name: comment comment_person_person_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.comment
-    ADD CONSTRAINT comment_person_person_id_fk FOREIGN KEY (person_id) REFERENCES public.person(person_id);
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT uk_6dotkott2kjsp8vw4d0m25fb7 UNIQUE (email);
 
 
 --
--- Name: person person_department_department_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: person uk_77e12pjkm9v423j9hd3u10bk1; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.person
-    ADD CONSTRAINT person_department_department_id_fk FOREIGN KEY (department_id) REFERENCES public.department(department_id);
+    ADD CONSTRAINT uk_77e12pjkm9v423j9hd3u10bk1 UNIQUE (user_id);
 
 
 --
--- Name: report report_comment_comment_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.report
-    ADD CONSTRAINT report_comment_comment_id_fk FOREIGN KEY (comment_id) REFERENCES public.comment(comment_id);
-
-
---
--- Name: report report_person_person_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.report
-    ADD CONSTRAINT report_person_person_id_fk FOREIGN KEY (person_id) REFERENCES public.person(person_id);
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
 
 
 --
--- Name: report report_task_task_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: report_task fk5pl6wtkq4hoat0m9phm7fa70r; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.report
-    ADD CONSTRAINT report_task_task_id_fk FOREIGN KEY (task_id) REFERENCES public.task(task_id);
+ALTER TABLE ONLY public.report_task
+    ADD CONSTRAINT fk5pl6wtkq4hoat0m9phm7fa70r FOREIGN KEY (task_id) REFERENCES public.task(id_task);
 
 
 --
--- Name: task task_comment_comment_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: person_task fk9ahn5lc58fp7a92ahv2vav3wx; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.task
-    ADD CONSTRAINT task_comment_comment_id_fk FOREIGN KEY (comment_id) REFERENCES public.comment(comment_id);
+ALTER TABLE ONLY public.person_task
+    ADD CONSTRAINT fk9ahn5lc58fp7a92ahv2vav3wx FOREIGN KEY (task_id) REFERENCES public.task(id_task);
+
+
+--
+-- Name: person fkemsnreyk6g37uoja1ngeog5sp; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.person
+    ADD CONSTRAINT fkemsnreyk6g37uoja1ngeog5sp FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: person_task fkia3rjqn5lflsnr0coa0lmi0d4; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.person_task
+    ADD CONSTRAINT fkia3rjqn5lflsnr0coa0lmi0d4 FOREIGN KEY (person_id) REFERENCES public.person(id);
+
+
+--
+-- Name: report_task fkmbim7n2u2px4lkqqg5whcbcjh; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.report_task
+    ADD CONSTRAINT fkmbim7n2u2px4lkqqg5whcbcjh FOREIGN KEY (report_id) REFERENCES public.report(id);
+
+
+--
+-- Name: comment fkn2m8whrfw1drq2c67d247br7c; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.comment
+    ADD CONSTRAINT fkn2m8whrfw1drq2c67d247br7c FOREIGN KEY (report_id) REFERENCES public.report(id);
+
+
+--
+-- Name: person_report fkpg0t6tl40st94vek90vdiuwdb; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.person_report
+    ADD CONSTRAINT fkpg0t6tl40st94vek90vdiuwdb FOREIGN KEY (report_id) REFERENCES public.report(id);
+
+
+--
+-- Name: person fkqqg5cmjglivmepn16lqb1m8ux; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.person
+    ADD CONSTRAINT fkqqg5cmjglivmepn16lqb1m8ux FOREIGN KEY (department_id) REFERENCES public.department(id);
+
+
+--
+-- Name: person_report fkt3t5d0c6v42s1cv1f8ums8pcm; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.person_report
+    ADD CONSTRAINT fkt3t5d0c6v42s1cv1f8ums8pcm FOREIGN KEY (person_id) REFERENCES public.person(id);
 
 
 --

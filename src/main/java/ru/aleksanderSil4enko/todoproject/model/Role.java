@@ -14,10 +14,18 @@ public enum Role {
     // CHIEF - Ставить задачи, устанавливать и корректировать сроки, комментировать задачи
     // по всем отделам, утверждает выполнение.
     // ADMIN - Добавлять сотрудников, подразделения, менять подчиненость (порядок)
-    EMPLOYER(Set.of()),
-    MASTER(Set.of()),
-    CHIEF(Set.of()),
-    ADMIN(Set.of());
+    EMPLOYER(Set.of(Permission.TASK_WRITE,Permission.TASK_READ)),
+    MASTER(Set.of(Permission.TASK_WRITE,Permission.TASK_READ,
+            Permission.REPORT_WRITE,Permission.REPORT_READ,
+            Permission.USERS_READ)),
+    CHIEF(Set.of(Permission.TASK_WRITE,Permission.TASK_READ,
+            Permission.REPORT_WRITE,Permission.REPORT_READ,
+            Permission.COMMENT_WRITE,Permission.COMMENT_READ,
+            Permission.USERS_READ)),
+    ADMIN(Set.of(Permission.TASK_WRITE,Permission.TASK_READ,
+            Permission.REPORT_WRITE,Permission.REPORT_READ,
+            Permission.COMMENT_WRITE,Permission.COMMENT_READ,
+            Permission.USERS_WRITE,Permission.USERS_READ));
 
     private final Set<Permission> permissions;
 
