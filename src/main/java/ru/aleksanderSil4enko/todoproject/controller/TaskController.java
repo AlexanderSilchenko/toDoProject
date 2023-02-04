@@ -40,34 +40,34 @@ public class TaskController {
         return taskService.save(task);
     }
     //удалить задание по id
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('tasks:write')")
     public void delete(@PathVariable long id) {
         taskService.delete(id);
     }
     //обновить задание полностью
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('tasks:write')")
     public Task update(@PathVariable long id,
                          @RequestBody Task task) {
         return taskService.update(id, task);
     }
     //частично обновить задание
-    @PatchMapping("{id}")
+    @PatchMapping("/{id}")
     @PreAuthorize("hasAuthority('tasks:write')")
     public Task partialUpdate(@PathVariable long id,
                                 @RequestBody Task task) {
         return taskService.partialUpdate(id, task);
     }
     //добавить в задание работника
-    @PatchMapping("{id}/add_employer/{personId}")
+    @PatchMapping("/{id}/add_employer/{personId}")
     @PreAuthorize("hasAuthority('tasks:write')")
     public Task addPersonToTask(@PathVariable long id,
                                 @PathVariable long personId) {
         return taskService.addPerson(id, personService.findById(personId));
     }
     //убрать работника из задания
-    @PatchMapping("{id}/remove_employer/{personId}")
+    @PatchMapping("/{id}/remove_employer/{personId}")
     @PreAuthorize("hasAuthority('tasks:write')")
     public Task removePersonFromTask(@PathVariable long id,
                                 @PathVariable long personId) {

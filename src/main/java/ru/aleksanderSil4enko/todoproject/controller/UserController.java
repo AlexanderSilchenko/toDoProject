@@ -38,20 +38,20 @@ public class UserController {
         return userService.save(user);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('users:write')")
     public void delete(@PathVariable long id) {
         userService.delete(id);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('users:write')")
     public User update(@PathVariable long id,
                          @RequestBody User user) {
         return userService.update(id, user);
     }
 
-    @PatchMapping("{id}")
+    @PatchMapping("/{id}")
     @PreAuthorize("hasAuthority('users:write')")
     public User partialUpdate(@PathVariable long id,
                                 @RequestBody User user) {

@@ -27,7 +27,7 @@ public class PersonController {
         return personService.findAll();
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('users:read')")
     public Person get(@PathVariable long id) {
         return personService.findById(id);
@@ -39,20 +39,20 @@ public class PersonController {
         return personService.save(person);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('users:write')")
     public void delete(@PathVariable long id) {
         personService.delete(id);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('users:write')")
     public Person update(@PathVariable long id,
                          @RequestBody Person person) {
         return personService.update(id, person);
     }
 
-    @PatchMapping("{id}")
+    @PatchMapping("/{id}")
     @PreAuthorize("hasAuthority('users:write')")
     public Person partialUpdate(@PathVariable long id,
                                 @RequestBody Person person) {

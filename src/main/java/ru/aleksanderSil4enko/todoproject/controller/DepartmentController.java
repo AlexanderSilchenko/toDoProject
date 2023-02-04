@@ -20,7 +20,7 @@ public class DepartmentController {
         return departmentService.findAll();
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('users:read')")
     public Department get(@PathVariable long id) {
         return departmentService.findById(id);
@@ -32,7 +32,7 @@ public class DepartmentController {
         return departmentService.save(department);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('users:read')")
     public void delete(@PathVariable long id) {
         departmentService.delete(id);
