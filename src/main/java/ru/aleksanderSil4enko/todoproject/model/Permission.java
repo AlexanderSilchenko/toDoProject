@@ -9,8 +9,9 @@ public enum Permission {
     REPORT_READ("reports:read"),
     REPORT_WRITE("reports:write"),
     USERS_READ("users:read"),
-    USERS_WRITE("users:write");
-
+    USERS_WRITE("users:write"),
+    ROLE_WRITE("role:write"),
+    ALL_PERMISSIONS("all:permissions");
     private final String permission;
 
     Permission(String permission) {

@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -24,12 +26,33 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(name = "first_name")
+    private String firstName;
+    @Column(name = "last_name")
+    private String lastName;
+    @Column(name = "title")
+    private String title;
+
+    @ManyToOne
+    @JoinColumn(name = "department_id", referencedColumnName = "id")
+    private Department department;
+
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToOne(mappedBy = "user")
+    @ManyToMany(mappedBy = "employers")
     @JsonIgnore
     @ToString.Exclude
-    private Person person;
+    private List<Task> tasks;
+
+    @OneToMany(mappedBy = "employer")
+    @JsonIgnore
+    @ToString.Exclude
+    private List<Report> reports;
+
+    @OneToMany(mappedBy = "employer")
+    @JsonIgnore
+    @ToString.Exclude
+    private List<Comment> comments;
 }

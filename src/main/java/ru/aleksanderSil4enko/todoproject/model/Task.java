@@ -29,13 +29,13 @@ public class Task {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "date_in")
+    @Column(name = "date_in", columnDefinition = "DATE")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateStart;
-    @Column(name = "date_out")
+    @Column(name = "date_out", columnDefinition = "DATE")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateFinish;
-    @Column(name = "date_off")
+    @Column(name = "date_off", columnDefinition = "DATE")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateDone;
 
@@ -44,12 +44,12 @@ public class Task {
     private Status taskStatus;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name="person_task",
+    @JoinTable(name="users_task",
             joinColumns=  @JoinColumn(name="task_id", referencedColumnName="id_task"),
-            inverseJoinColumns= @JoinColumn(name="person_id", referencedColumnName="id"))
-    private List<Person> employers;
+            inverseJoinColumns= @JoinColumn(name="user_id", referencedColumnName="id"))
+    private List<User> employers;
 
-    @ManyToMany(mappedBy = "tasks")
+    @OneToMany(mappedBy = "task")
     @JsonIgnore
     @ToString.Exclude
     private List<Report> reports;

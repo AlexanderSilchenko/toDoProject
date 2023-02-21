@@ -25,6 +25,6 @@ public class Department {
     @OneToMany(mappedBy = "department")
     @JsonIgnore
     @ToString.Exclude
-    private List<Person> employers;
+    private List<User> employers;
 
 }

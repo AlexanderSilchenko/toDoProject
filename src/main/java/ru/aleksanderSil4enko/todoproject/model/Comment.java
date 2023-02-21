@@ -29,4 +29,8 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "report_id", referencedColumnName = "id")
     private Report report;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User employer;
 }
